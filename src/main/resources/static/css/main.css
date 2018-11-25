@@ -1,0 +1,15 @@
+#alert_message_success {
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 30px;
+    position: relative;
+    text-align: center;
+}
+
+#alert_message_warning {
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 30px;
+    position: relative;
+    text-align: center;
+}
