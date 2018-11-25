@@ -6,17 +6,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-public class HomeC {
+public class HomeController {
 
     @GetMapping({"/", "/home"})
-    public ModelAndView doGet(@RequestParam(required = false) Boolean loginError,
-                              @RequestParam(required = false) Boolean logout) {
+    public ModelAndView doGet(@RequestParam(required = false) Boolean loginFailure,
+                              @RequestParam(required = false) Boolean logoutSuccessful) {
         ModelAndView modelAndView = new ModelAndView();
-        if (loginError != null && loginError == true) {
-            modelAndView.addObject("loginError", "Login credentials are wrong.");
+        if (loginFailure != null && loginFailure == true) {
+            modelAndView.addObject("loginFailure", "Login credentials are wrong.");
         }
-        if (logout != null && logout == true) {
-            modelAndView.addObject("logoutSuccessfull", "You've been logout successfully.");
+        if (logoutSuccessful != null && logoutSuccessful == true) {
+            modelAndView.addObject("logoutSuccessful", "You've been logout successfully.");
         }
         modelAndView.setViewName("home");
         return modelAndView;

@@ -2,8 +2,6 @@ package com.beardedtom.controller.dto;
 
 import com.beardedtom.db.Sensor;
 import com.beardedtom.db.SensorStatus;
-import com.beardedtom.db.SensorType;
-import com.beardedtom.db.User;
 import com.beardedtom.db.dao.SensorDAO;
 import com.beardedtom.db.dao.SensorStatusDAO;
 import com.beardedtom.db.dao.sensors.DHT22DAO;
@@ -11,15 +9,10 @@ import com.beardedtom.db.sensors.DHT22;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.html.parser.Entity;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 @Component
 public class ControllerUtil {

@@ -58,7 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
-                .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/panel/sensors/sensor/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/panel/sensors/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN").anyRequest().authenticated()
@@ -66,12 +65,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/panel").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN").anyRequest().authenticated()
                 .and().csrf().disable()
                 .formLogin()
-                .loginPage("/login").defaultSuccessUrl("/panel?loginSuccessfull=true").failureUrl("/?loginError=true")
+                .loginPage("/home").defaultSuccessUrl("/panel?loginSuccessful=true").failureUrl("/?loginFailure=true")
                 .usernameParameter("userEmail")
                 .passwordParameter("userPassword")
                 .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/home?logout=true").deleteCookies("JSESSIONID").and()
+                .logoutSuccessUrl("/home?logoutSuccessful=true").deleteCookies("JSESSIONID").and()
                 .exceptionHandling().accessDeniedPage("/access_denied");
     }
 

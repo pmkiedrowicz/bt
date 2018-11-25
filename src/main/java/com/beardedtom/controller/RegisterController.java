@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class RegisterC {
+public class RegisterController {
     @Autowired
     private UserDAO userDAO;
     @Autowired
