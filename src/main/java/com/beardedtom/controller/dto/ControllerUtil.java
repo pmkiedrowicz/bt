@@ -147,7 +147,7 @@ public class ControllerUtil {
 
     public Object getLast24hListOfDHT22(Sensor sensor) {
         /**
-         * Get last 24h values of user sensor
+         * Get last 24h values of DHT22 sensor
          */
         if (sensor == null) {
             return null;
@@ -163,8 +163,7 @@ public class ControllerUtil {
                     last24BySensor.add(dht22);
                 }
             }
-            for (DHT22 el : last24BySensor
-            ) {
+            for (DHT22 el : last24BySensor) {
                 finalArr.add(el.getDht22TimeStamp());
                 finalArr.add(el.getDht22Temperature());
                 finalArr.add(el.getDht22Humidity());
