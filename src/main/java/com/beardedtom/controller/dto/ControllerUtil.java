@@ -155,24 +155,19 @@ public class ControllerUtil {
             long last24h = 86400000;
             long currentTime = System.currentTimeMillis();
             List finalArr = new ArrayList<>();
-            int failure = 0;
-            for (int i = 0; i < 24; i++) {
-                DHT22 c = dht22DAO.findFirstBySensorAndDht22TimeStampBetween(sensor, (currentTime - last24h), (currentTime - last24h + 3599999));
-                if (c == null) {
-                    finalArr.add(currentTime - last24h);
-                    finalArr.add(null);
-                    finalArr.add(null);
-                    currentTime += 3600000;
-                    failure += 1;
-                } else {
-                    finalArr.add(c.getDht22TimeStamp());
-                    finalArr.add(c.getDht22Temperature());
-                    finalArr.add(c.getDht22Humidity());
-                    currentTime += 3600000;
+            List<DHT22> allBySensor = dht22DAO.findAllBySensor(sensor);
+            List<DHT22> last24BySensor = new ArrayList<>();
+
+            for (DHT22 dht22 : allBySensor) {
+                if (dht22.getDht22TimeStamp() >= currentTime - last24h) {
+                    last24BySensor.add(dht22);
                 }
             }
-            if (failure >= 24) {
-                finalArr.clear();
+            for (DHT22 el : last24BySensor
+            ) {
+                finalArr.add(el.getDht22TimeStamp());
+                finalArr.add(el.getDht22Temperature());
+                finalArr.add(el.getDht22Humidity());
             }
             return finalArr;
         }

@@ -85,7 +85,7 @@
     </dependencies>
     <build>
         <!--final name of artifact-->
-        <finalName>bt2</finalName>
+        <finalName>bt</finalName>
         <plugins>
             <!--create working .jar file-->
             <plugin>

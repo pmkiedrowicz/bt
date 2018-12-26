@@ -18,4 +18,8 @@ public interface DHT22DAO extends JpaRepository<DHT22, Long> {
     DHT22 getFirstBySensorAndDht22TimeStampIsAfter(Sensor sensor, long timestamp);
 
     DHT22 findFirstBySensorAndDht22TimeStampBetween(Sensor sensor, long min, long max);
+
+    DHT22 findFirstBySensorAndDht22TimeStampBefore(Sensor sensor, long timestamp);
+
+    DHT22 findTopBySensorAndDht22TimeStamp(Sensor sensor, long timestamp);
 }

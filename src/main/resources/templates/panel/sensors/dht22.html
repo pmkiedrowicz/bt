@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Beardedtom.com</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>window.setTimeout(function () {
+        $("#alert_message_warning,#alert_message_success").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 2000);</script>
+</head>
+
+<body class="bg-secondary">
+<div class="container bg-light p-0">
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-between">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar,#navbar2">
+            <span class="navbar-toggler-icon justify-content-end"></span>
+        </button>
+        <div class="collapse navbar-collapse flex-grow-0" id="navbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/panel">Panel</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Sensors
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item active" href="/panel/sensors/dht22">DHT22</a>
+                        <a class="dropdown-item" href="/panel/sensors/mq135">MQ135</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse flex-grow-0" id="navbar2">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                    <div id="logout">
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="container">
+            <div class="justify-content-between">
+                <p></p>
+                <div class="card bg-light text-center">
+                    <div class="card-header">Available microcontrollers</div>
+                    <div class="card-body" style="padding: 0px">
+                        <div class="form-group">
+                            <div class="table-responsive">
+                                <table class="table table-striped" style="width: 100%">
+                                    <thead>
+                                    <tr>
+                                        <th>Status</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Last Update</th>
+                                        <th>Created</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="sensor: ${listOfSensors}">
+                                        <td th:if="${sensor.sensorStatus.sensorStatusUpdate} == true"><i
+                                                class="material-icons text-success">check_circle_outline</i>
+                                        </td>
+                                        <td th:if="${sensor.sensorStatus.sensorStatusUpdate} == false"><i
+                                                class="material-icons text-danger">do_not_disturb_alt</i>
+                                        </td>
+                                        <td th:text="${sensor.sensorUserName}"/>
+                                        <td th:text="${sensor.sensorType.sensorTypeName}"/>
+                                        <td th:text="${#dates.format(sensor.sensorStatus.sensorStatusLastPost, 'HH:mm dd.MM.yyyy')}"/>
+                                        <td th:text="${#dates.format(sensor.sensorRegisterTime, 'HH:mm dd.MM.yyyy')}"/>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p></p>
+                <div class="card bg-light text-center">
+                    <div class="card-header">title</div>
+                    <div class="card-body" style="padding: 0px">
+                        <div class="form-group" id="chart0">
+                        </div>
+                        <div class="form-group" id="chart1">
+                        </div>
+                        <div class="form-group" id="chart2">
+                        </div>
+                        <div class="form-group" id="chart3">
+                        </div>
+                        <div class="form-group" id="chart4">
+                        </div>
+                        <script type="text/javascript" th:inline="javascript">
+                            var d = /*[[${s0}]]*/ null;
+
+                            function mapByPattern(d, pattern, offset) {
+                                var result = [], i = 0;
+                                while (i < d.length) {
+                                    result.push(pattern.map(j => d[i + j]);
+                                    i += offset;
+                                }
+                                return result;
+                            }
+
+                            var options = {
+                                chart: {
+                                    type: 'area',
+                                    height: 300
+                                },
+                                series: [
+                                    {
+                                        name: 'Temperature',
+                                        data: mapByPattern(d, [0, 1], 3)
+                                    },
+                                    {
+                                        name: "Humidity",
+                                        data: mapByPattern(d, [0, 2], 3)
+                                    }
+                                ],
+                                xaxis: {
+                                    type: 'datetime'
+                                },
+                                yaxis: [
+                                    {
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Temperature"
+                                        }
+                                    }, {
+                                        min: 0,
+                                        max: 100,
+                                        opposite: true,
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Humidity"
+                                        }
+                                    }
+                                ],
+                                legend: {
+                                    position: 'top',
+                                    horizontalAlign: 'center'
+                                },
+                                tooltip: {
+                                    x: {
+                                        format: 'HH:mm dd/MM/yy'
+                                    },
+                                }
+                            }
+                            var chart = new ApexCharts(document.querySelector("#chart0"), options);
+                            chart.render();
+                        </script>
+                        <script type="text/javascript" th:inline="javascript">
+                            var d = /*[[${s1}]]*/ null;
+                            function mapByPattern(d, pattern, offset) {
+                                var result = [], i = 0;
+                                while (i < d.length) {
+                                    result.push(pattern.map(j => d[i + j]));
+                                    i += offset;
+                                }
+                                return result;
+                            }
+
+                            var options = {
+                                chart: {
+                                    type: 'area',
+                                    height: 300
+                                },
+                                series: [
+                                    {
+                                        name: 'Temperature',
+                                        data: mapByPattern(d, [0, 1], 3)
+                                    },
+                                    {
+                                        name: "Humidity",
+                                        data: mapByPattern(d, [0, 2], 3)
+                                    }
+                                ],
+                                xaxis: {
+                                    type: 'datetime'
+                                },
+                                yaxis: [
+                                    {
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Temperature"
+                                        }
+                                    }, {
+                                        min: 0,
+                                        max: 100,
+                                        opposite: true,
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Humidity"
+                                        }
+                                    }
+                                ],
+                                legend: {
+                                    position: 'top',
+                                    horizontalAlign: 'center'
+                                },
+                                tooltip: {
+                                    x: {
+                                        format: 'HH:mm dd/MM/yy'
+                                    },
+                                }
+                            }
+                            var chart = new ApexCharts(document.querySelector("#chart1"), options);
+                            chart.render();
+                        </script>
+                        <script type="text/javascript" th:inline="javascript">
+                            var d = /*[[${s2}]]*/ null;
+                            function mapByPattern(d, pattern, offset) {
+                                var result = [], i = 0;
+                                while (i < d.length) {
+                                    result.push(pattern.map(j => d[i + j]));
+                                    i += offset;
+                                }
+                                return result;
+                            }
+
+                            var options = {
+                                chart: {
+                                    type: 'area',
+                                    height: 300
+                                },
+                                series: [
+                                    {
+                                        name: 'Temperature',
+                                        data: mapByPattern(d, [0, 1], 3)
+                                    },
+                                    {
+                                        name: "Humidity",
+                                        data: mapByPattern(d, [0, 2], 3)
+                                    }
+                                ],
+                                xaxis: {
+                                    type: 'datetime'
+                                },
+                                yaxis: [
+                                    {
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Temperature"
+                                        }
+                                    }, {
+                                        min: 0,
+                                        max: 100,
+                                        opposite: true,
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Humidity"
+                                        }
+                                    }
+                                ],
+                                legend: {
+                                    position: 'top',
+                                    horizontalAlign: 'center'
+                                },
+                                tooltip: {
+                                    x: {
+                                        format: 'HH:mm dd/MM/yy'
+                                    },
+                                }
+                            }
+                            var chart = new ApexCharts(document.querySelector("#chart2"), options);
+                            chart.render();
+                        </script>
+                        <script type="text/javascript" th:inline="javascript">
+                            var d = /*[[${s3}]]*/ null;
+                            function mapByPattern(d, pattern, offset) {
+                                var result = [], i = 0;
+                                while (i < d.length) {
+                                    result.push(pattern.map(j => d[i + j]));
+                                    i += offset;
+                                }
+                                return result;
+                            }
+
+                            var options = {
+                                chart: {
+                                    type: 'area',
+                                    height: 300
+                                },
+                                series: [
+                                    {
+                                        name: 'Temperature',
+                                        data: mapByPattern(d, [0, 1], 3)
+                                    },
+                                    {
+                                        name: "Humidity",
+                                        data: mapByPattern(d, [0, 2], 3)
+                                    }
+                                ],
+                                xaxis: {
+                                    type: 'datetime'
+                                },
+                                yaxis: [
+                                    {
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Temperature"
+                                        }
+                                    }, {
+                                        min: 0,
+                                        max: 100,
+                                        opposite: true,
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Humidity"
+                                        }
+                                    }
+                                ],
+                                legend: {
+                                    position: 'top',
+                                    horizontalAlign: 'center'
+                                },
+                                tooltip: {
+                                    x: {
+                                        format: 'HH:mm dd/MM/yy'
+                                    },
+                                }
+                            }
+                            var chart = new ApexCharts(document.querySelector("#chart3"), options);
+                            chart.render();
+                        </script>
+                        <script type="text/javascript" th:inline="javascript">
+                            var d = /*[[${s4}]]*/ null;
+                            function mapByPattern(d, pattern, offset) {
+                                var result = [], i = 0;
+                                while (i < d.length) {
+                                    result.push(pattern.map(j => d[i + j]));
+                                    i += offset;
+                                }
+                                return result;
+                            }
+
+                            var options = {
+                                chart: {
+                                    type: 'area',
+                                    height: 300
+                                },
+                                series: [
+                                    {
+                                        name: 'Temperature',
+                                        data: mapByPattern(d, [0, 1], 3)
+                                    },
+                                    {
+                                        name: "Humidity",
+                                        data: mapByPattern(d, [0, 2], 3)
+                                    }
+                                ],
+                                xaxis: {
+                                    type: 'datetime'
+                                },
+                                yaxis: [
+                                    {
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Temperature"
+                                        }
+                                    }, {
+                                        min: 0,
+                                        max: 100,
+                                        opposite: true,
+                                        axisTicks: {
+                                            show: true
+                                        },
+                                        axisBorder: {
+                                            show: true,
+                                        },
+                                        title: {
+                                            text: "Humidity"
+                                        }
+                                    }
+                                ],
+                                legend: {
+                                    position: 'top',
+                                    horizontalAlign: 'center'
+                                },
+                                tooltip: {
+                                    x: {
+                                        format: 'HH:mm dd/MM/yy'
+                                    },
+                                }
+                            }
+                            var chart = new ApexCharts(document.querySelector("#chart4"), options);
+                            chart.render();
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+
+        <div class="container">
+            <div class="card-columns justify-content-between">
+                <div class="card bg-light text-center">
+                    <div class="card-header">Example POST</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <i>http://www.beardedtom.com/panel/sensors/sensor/dht22?seed=5110a6f3-ef9b-460e-8681-dee06f4b67a3&temperature=22.7&humidity=54.8</i>
+                        </p>
+                    </div>
+                </div>
+                <div class="card bg-light text-center">
+                    <div class="card-header">Example card</div>
+                    <div class="card-body">
+                        <p class="card-text">example content</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+    </div>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+        <div class="flex-grow-0">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">© 2018 Copyright: Beardedtom.com</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

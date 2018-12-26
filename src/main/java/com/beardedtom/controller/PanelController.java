@@ -118,7 +118,5 @@ public class PanelController {
                 }
             }
         }
-//        modelAndView.setViewName("panel");
-//        return modelAndView;
     }
 }
