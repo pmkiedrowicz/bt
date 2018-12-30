@@ -163,6 +163,7 @@ public class ControllerUtil {
                     last24BySensor.add(dht22);
                 }
             }
+            finalArr.add(sensor.getSensorUserName());
             for (DHT22 el : last24BySensor) {
                 finalArr.add(el.getDht22TimeStamp());
                 finalArr.add(el.getDht22Temperature());
