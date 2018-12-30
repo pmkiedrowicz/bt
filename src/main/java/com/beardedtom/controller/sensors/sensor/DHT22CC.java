@@ -1,6 +1,7 @@
 package com.beardedtom.controller.sensors.sensor;
 
 import com.beardedtom.controller.dto.ControllerUtil;
+import com.beardedtom.controller.sensors.sensor.interfaces.DHT22CCI;
 import com.beardedtom.db.Sensor;
 import com.beardedtom.db.SensorStatus;
 import com.beardedtom.db.dao.SensorDAO;
@@ -14,12 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class DHT22CC {
-    private String seedType = "DHT22";
-    private int humiMin = 0;
-    private int humiMax = 100;
-    private int tempMin = -40;
-    private int tempMax = 80;
+public class DHT22CC implements DHT22CCI {
 
     @PostMapping("/panel/sensors/sensor/dht22")
     public ResponseEntity doPost(@RequestParam String seed, @RequestParam String temperature, @RequestParam String humidity) {

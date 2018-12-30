@@ -1,6 +1,7 @@
 package com.beardedtom.controller.sensors;
 
 import com.beardedtom.controller.dto.ControllerUtil;
+import com.beardedtom.controller.sensors.sensor.DHT22CC;
 import com.beardedtom.db.Sensor;
 import com.beardedtom.db.dao.SensorDAO;
 import com.beardedtom.db.dao.SensorTypeDAO;
